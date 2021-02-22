@@ -1,0 +1,67 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>cyberark-credential-resolver</groupId>
+	<artifactId>cyberark-credential-resolver</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	
+	<properties>
+		<!-- This should point to the MID Server installation location (agent directory path).
+			 $ mvn -D midserver.agent.dir="/path/to/mid_server/agent" (maven command to build)
+		-->
+		<midserver.agent.dir>/path/to/midserver/agent</midserver.agent.dir>
+		
+		<!-- This should point to the CyberArk AIM SDK jar (JavaPasswordSDK.jar) location -->
+		<cyberark.sdk.jar.dir>/path/to/javapasswordsdk/jar</cyberark.sdk.jar.dir>
+	</properties>
+	
+	<build>
+		<sourceDirectory>src</sourceDirectory>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.7.0</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<!-- Direct dependencies to be uploaded to MID Server -->
+		<dependency>
+			<groupId>com.cyberark</groupId>
+			<artifactId>cyberark-AIM</artifactId>
+			<version>7.2.13</version>
+			<scope>system</scope>
+			<systemPath>${cyberark.sdk.jar.dir}/JavaPasswordSDK.jar</systemPath>
+		</dependency>
+		
+		<!-- MID server dependencies, not required to be uploaded -->
+		<!-- MID jar dependency for config APIs -->
+		<dependency> 
+			<groupId>com.snc</groupId> 
+			<artifactId>mid</artifactId> 
+			<version>19.0.0.0-SNAPSHOT</version>
+			<scope>system</scope>
+			<systemPath>${midserver.agent.dir}/lib/mid.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+			<scope>system</scope>
+			<systemPath>${midserver.agent.dir}/lib/log4j.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.1.3</version>
+			<scope>system</scope>
+			<systemPath>${midserver.agent.dir}/lib/commons-logging.jar</systemPath>
+		</dependency>
+	</dependencies>
+</project>
