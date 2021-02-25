@@ -65,11 +65,11 @@ public class CyberArkCredentialResolver {
 
 	// Required parameters that must be in the config file in order to use CyberArk.
 	// Parameters used to access the vault / credentials
-	public static final String SAFE_FOLDER_PROPERTY = "ext.cred.safe_folder";
-	public static final String SAFE_NAME_PROPERTY = "ext.cred.safe_name";
-	public static final String SAFE_TIMEOUT_PROPERTY = "ext.cred.safe_timeout";
-	public static final String SAFE_USER_APP_ID_PROPERTY = "ext.cred.app_id";
-	public static final String CYBERARK_INCLUDE_DOMAIN_PROPERTY = "ext.cred.cyberark.include_basic_auth_domain";
+	public static final String SAFE_FOLDER_PROPERTY = "mid.ext.cred.cyberark.safe_folder";
+	public static final String SAFE_NAME_PROPERTY = "mid.ext.cred.cyberark.safe_name";
+	public static final String SAFE_USER_APP_ID_PROPERTY = "mid.ext.cred.cyberark.app_id";
+	public static final String SAFE_TIMEOUT_PROPERTY = "mid.ext.cred.cyberark.safe_timeout";
+	public static final String CYBERARK_INCLUDE_DOMAIN_PROPERTY = "mid.ext.cred.cyberark.include_basic_auth_domain";
 
 	private static final String DEFAULT_SAFE_APP_ID = "ServiceNow_MID_Server";
 	private static final String DEFAULT_SAFE_TIMEOUT = "10";
@@ -83,7 +83,7 @@ public class CyberArkCredentialResolver {
 	private String safeAppID = ""; 		// The App-ID used when connecting to CyberArk (can be overridden in the config.xml file)
 	private String safeTimeout = "";	// The vault (server) response timeout in seconds to use as specified in the MID config.xml file
 
-	private String includeDomain = "true"; 
+	private String includeDomain = ""; 
 
 
 	public CyberArkCredentialResolver() {
@@ -114,7 +114,7 @@ public class CyberArkCredentialResolver {
 		includeDomain = Config.get().getProperty(CYBERARK_INCLUDE_DOMAIN_PROPERTY);
 		if(isNullOrEmpty(includeDomain)) {
 			// include domain for windows username by default.
-			includeDomain = "true";
+			includeDomain = "false";
 		}
 
 		safeFolder = Config.get().getProperty(SAFE_FOLDER_PROPERTY);
