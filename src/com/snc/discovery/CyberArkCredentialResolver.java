@@ -75,7 +75,7 @@ public class CyberArkCredentialResolver {
 	private static final String DEFAULT_SAFE_TIMEOUT = "10";
 	private static final String DEF_SAFE_CREDID_SPLIT = ":";
 
-	private static final String EXT_CRED_API_VERSION = "1.1";	// We support the 1.1 API version for External Credentials
+	private static final String EXT_CRED_API_VERSION = "2.0";
 
 	//TODO: Remove hard-coded values and read them from config.xml if required.
 	private String safeFolder = "";		// The Safe folder to use as specified in the MID config.xml file (must match folder name in CyberArk)
@@ -92,6 +92,7 @@ public class CyberArkCredentialResolver {
 
 	/**
 	 * Return the API version supported by this class.
+	 * Note: should be more than 1.1 for external credential resolver.
 	 */
 	public String getVersion() {
 		return EXT_CRED_API_VERSION;
