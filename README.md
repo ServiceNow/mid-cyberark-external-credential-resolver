@@ -22,17 +22,17 @@ Eclipse or any equivalent IDE
 
 * Make sure that “External Credential Storage” plugin (com.snc.discovery.external_credentials) is installed in your ServiceNow instance.
 * Import the cyberark-external-credentials-0.0.1-SNAPSHOT.jar file from target folder in ServiceNow instance.
-	a. Navigate to MID Server – JAR Files
-	b. Create a New Record by clicking New
-	c. Name it “CyberArkCredentialResolver”, version 0.0.1 and attach cyberark-external-credentials-0.0.1-SNAPSHOT.jar from target folder.
-	d. Click Submit
+	- Navigate to MID Server – JAR Files
+	- Create a New Record by clicking New
+	- Name it “CyberArkCredentialResolver”, version 0.0.1 and attach cyberark-external-credentials-0.0.1-SNAPSHOT.jar from target folder.
+	- Click Submit
 * Update the config.xml in MID Server with below parameters and restart the MID Server.
 
-	<parameter name="mid.ext.cred.cyberark.safe_folder" value="<safe_folder>"/> 
-	<parameter name="mid.ext.cred.cyberark.safe_name" value="<safe_name>"/> 
-	<parameter name="mid.ext.cred.cyberark.app_id" value="ServiceNow_MID_Server"/> 
-	<parameter name="mid.ext.cred.cyberark.safe_timeout" value="10"/> 
-	<parameter name="mid.ext.cred.cyberark.include_basic_auth_domain" value="<true|false>"/> 
+   <parameter name="ext.cred.cyberark.safe_folder" value="<safe_folder>"/> 
+   <parameter name="ext.cred.cyberark.safe_name" value="<safe_name>"/> 
+   <parameter name="ext.cred.cyberark.app_id" value="ServiceNow_MID_Server"/> 
+   <parameter name="ext.cred.cyberark.safe_timeout" value="10"/> 
+   <parameter name="ext.cred.cyberark.include_basic_auth_domain" value="<true|false>"/> 
 
 * Create Credential in the instance with "External credential store" flag activated.
 * Ensure that the "Credential ID" match the Credential name in your CyberArk credential vault (ex: mycredname)
