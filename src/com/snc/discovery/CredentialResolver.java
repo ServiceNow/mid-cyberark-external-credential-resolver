@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import com.snc.automation_common.integration.creds.IExternalCredential;
+import com.snc.core_automation_common.logging.Logger;
+import com.snc.core_automation_common.logging.LoggerFactory;
 
 import javapasswordsdk.PSDKPassword;
 import javapasswordsdk.PSDKPasswordRequest;
@@ -39,7 +41,9 @@ public class CredentialResolver implements IExternalCredential {
 
 	private String includeDomain = ""; 
 
-
+	// Logger object to log messages in agent.log
+	private static final Logger fLogger = LoggerFactory.getLogger(CredentialResolver.class);
+	
 	public CredentialResolver() {
 	}
 
@@ -67,23 +71,38 @@ public class CredentialResolver implements IExternalCredential {
 			// use default AppId
 			safeAppID = DEFAULT_SAFE_APP_ID;
 		}
+		
+		fLogger.info("SafeAppID: " + safeAppID);
+		
 		safeTimeout = configMap.get(SAFE_TIMEOUT_PROPERTY);
 		if(isNullOrEmpty(safeTimeout)) {
 			// use default timeout
 			safeTimeout = DEFAULT_SAFE_TIMEOUT;
 		}
+		
+		fLogger.info("safeTimeout: " + safeTimeout);
 
 		includeDomain = configMap.get(CYBERARK_INCLUDE_DOMAIN_PROPERTY);
 		if(isNullOrEmpty(includeDomain)) {
 			// include domain for windows username by default.
 			includeDomain = "false";
 		}
+		
+		fLogger.info("includeDomain: " + includeDomain);
 
 		safeFolder = configMap.get(SAFE_FOLDER_PROPERTY);
+		
+		fLogger.info("safeFolder: " + safeFolder);
+		
 		if(isNullOrEmpty(safeFolder))
 			throw new RuntimeException("[Vault] INFO - CredentialResolver safeFolder not set!");
 
+		
+		
 		safeName = configMap.get(SAFE_NAME_PROPERTY);
+		
+		fLogger.info("safeName: " + safeName);
+		
 		if(isNullOrEmpty(safeName))
 			throw new RuntimeException("[Vault] INFO - CredentialResolver safeSafeName not set!");
 		
@@ -128,7 +147,11 @@ public class CredentialResolver implements IExternalCredential {
 			} else {
 				throw new RuntimeException( "Invalid Credential ID: Credential Id has split string more than twice");
 			}
-
+			
+			fLogger.info("credId: " + credId);
+			fLogger.info("credType: " + credType);
+			fLogger.info("policyId: " + policyId);
+			
 			// Connect to vault and retrieve credential
 			PSDKPassword psdkPassword = getCred(safeAppID, credId, safeName, safeFolder, policyId, safeTimeout);
 
@@ -154,7 +177,7 @@ public class CredentialResolver implements IExternalCredential {
 						String domainName = "";
 						// domain is the string in the address field.
 						String address = psdkPassword.getAddress();
-						System.out.println("Windows domain name property not found, using address : " + address);
+						fLogger.debug("Windows domain name property not found, using address : " + address);
 						if (!isNullOrEmpty(address)) {
 							domainName = address;
 						}
@@ -185,13 +208,12 @@ public class CredentialResolver implements IExternalCredential {
 			case "azure": ; // tenant_id, client_id, auth_method, secret_key
 			case "gcp": ; // email , secret_key
 			default:
-				System.err.println("[Vault] INFO - CredentialResolver, not implemented credential type!");
+				fLogger.error("[Vault] INFO - CredentialResolver - invalid credential type found.");
 				break;
 			}
 		} catch (Exception e) {
 			// Catch block
-			System.err.println("### Unable to find credential from cyberark #### ");
-			e.printStackTrace();
+			fLogger.error("### Unable to find credential from CyberArk server.", e);
 		}
 		// the resolved credential is returned in a HashMap...
 		Map<String, String> result = new HashMap<String, String>();
@@ -251,7 +273,7 @@ public class CredentialResolver implements IExternalCredential {
 		map.put(ARG_TYPE, "windows");
 
 		Map<String, String> result = credResolver.resolve(map );
-		System.out.println(result.toString());
+		fLogger.info(result.toString());
 	}
 	
 }
