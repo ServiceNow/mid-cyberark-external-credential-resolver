@@ -31,8 +31,6 @@ public class CredentialResolver implements IExternalCredential {
 	private static final String DEFAULT_SAFE_TIMEOUT = "10";
 	private static final String DEF_SAFE_CREDID_SPLIT = ":";
 
-	private static final String EXT_CRED_API_VERSION = "2.0";
-
 	//Load below parameters from MID config parameters.
 	private String safeFolder = "";		// The Safe folder to use as specified in the MID config.xml file (must match folder name in CyberArk)
 	private String safeName = "";		// The Safe name to use as specified in the MID config.xml file (must match safe name in CyberArk)
@@ -49,11 +47,11 @@ public class CredentialResolver implements IExternalCredential {
 
 	/**
 	 * Return the API version supported by this class.
-	 * Note: should be more than 1.1 for external credential resolver.
+	 * Note: should be less than 1.1 for external credential resolver.
 	 */
 	@Override
 	public String getVersion() {
-		return EXT_CRED_API_VERSION;
+		return "0.1";
 	}
 
 	
@@ -95,16 +93,14 @@ public class CredentialResolver implements IExternalCredential {
 		fLogger.info("safeFolder: " + safeFolder);
 		
 		if(isNullOrEmpty(safeFolder))
-			throw new RuntimeException("[Vault] INFO - CredentialResolver safeFolder not set!");
+			fLogger.error("[Vault] INFO - CredentialResolver safeFolder not set!");
 
-		
-		
 		safeName = configMap.get(SAFE_NAME_PROPERTY);
 		
 		fLogger.info("safeName: " + safeName);
 		
 		if(isNullOrEmpty(safeName))
-			throw new RuntimeException("[Vault] INFO - CredentialResolver safeSafeName not set!");
+			fLogger.error("[Vault] INFO - CredentialResolver safeSafeName not set!");
 		
 	}
 
