@@ -38,3 +38,5 @@ Eclipse or any equivalent IDE
 * Ensure that the "Credential ID" match the Credential name in your CyberArk credential vault (ex: mycredname)
 
 
+## Vulnerability Reporting
+Please notify psirt-oss@servicenow.com regarding any vulnerability reports in addition to following current reporting procedure.
